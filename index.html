@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-3">5 Days Weather Forecast <span style='font-size:100px;'>&#127780;</span></h1>
+    </header>
+    <div class="container">
+          <form>
+            <input id="city-name" type="text" placeholder="Search for a city">
+            <button id="submit-button" type="submit">SUBMIT</button>
+          </form>
+    <div id="weather">
+    </div> 
+  </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+
+      //Open Weather API REF (https://openweathermap.org/api)
+      //my key here
+var appKey = "5861eff607d6abf564133bf3ea6c6d04"
+
+$("#submit-button").on("click", function(event){
+  event.preventDefault();
+  let cityName=$("#city-name").val();
+  let query="https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + appKey;
+console.log(query);
+
+  $.ajax({
+    url: query,
+    method: "GET"
+  }).then(function(response){
+    console.log(response);
+
+//enter array here from object
+      var wrapper= $("<div>").addClass("wrapper");
+      var weatherTitle = $("<h1>").addClass("card-title").text(response.city.name);
+      var temp = $("<h2>").addClass("card-text").text("temperature: "  + response.list[0].main.temp);
+//       var location = $("<h2>").text(response.location);
+
+//append content
+      wrapper.append(weatherTitle, temp);
+      $("#weather").append(wrapper);
+
+ });
+});
+    </script>
+</html>
